@@ -80,8 +80,8 @@ public class TemplateGeneratorService {
         Resource resource = null;
         try {
             resource = new UrlResource(path.toUri());
-            FileUtils.deleteDirectory(new File(projectCreatedPath));
             Files.deleteIfExists(path);
+            FileUtils.deleteDirectory(new File(projectCreatedPath));
         } catch (Exception e) {
             log.error("Exception occurred while generating project with exception message {}", e.getMessage());
             throw new RuntimeException("Exception occurred while generating project with exception message " + e.getMessage());
