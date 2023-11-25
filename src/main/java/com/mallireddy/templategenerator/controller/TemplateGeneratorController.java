@@ -1,7 +1,6 @@
 package com.mallireddy.templategenerator.controller;
 
 import com.mallireddy.templategenerator.domain.response.ApiResponse;
-import com.mallireddy.templategenerator.domain.response.ProjectListResponse;
 import com.mallireddy.templategenerator.domain.response.TemplateGeneratorStatusResponse;
 import com.mallireddy.templategenerator.service.TemplateGeneratorService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,7 +13,6 @@ import org.zeroturnaround.zip.commons.FileUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.List;
 import java.util.Map;
 
 
@@ -41,12 +39,6 @@ public class TemplateGeneratorController {
         response.flushBuffer();
         Files.deleteIfExists(resource.getFile().toPath());
         return ApiResponse.ok();
-    }
-
-    @GetMapping("/project-list")
-    public ApiResponse<List<ProjectListResponse>> projectList() {
-        List<ProjectListResponse> projectList = templategeneratorService.getProjectList();
-        return ApiResponse.ok(projectList);
     }
 
 }

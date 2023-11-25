@@ -22,9 +22,7 @@
 		<java.version>17</java.version>
 		<springdoc-openapi-ui>2.0.4</springdoc-openapi-ui>
 		<zt-zip-version>1.16</zt-zip-version>
-<!--		<docker.image.prefix>registry.hub.docker.com</docker.image.prefix>-->
-<!--        <container.image>openjdk:17-alpine</container.image>-->
-<!--		<jib-maven-plugin.version>3.3.0</jib-maven-plugin.version>-->
+
 <!--		<git-commit-id-maven-plugin-version>6.0.0</git-commit-id-maven-plugin-version>-->
 	</properties>
 	<dependencies>
@@ -40,25 +38,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		
-		
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		
-		<dependency>
-      		<groupId>org.springframework.boot</groupId>
-      		<artifactId>spring-boot-docker-compose</artifactId>
-      		<scope>runtime</scope>
-      		<optional>true</optional>
-    	</dependency>
 		<dependency>
 			<groupId>org.zeroturnaround</groupId>
 			<artifactId>zt-zip</artifactId>
@@ -79,11 +58,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -100,20 +74,7 @@
 					</excludes>
 				</configuration>
 			</plugin>
-			
-			<!--<plugin>
-				<artifactId>jib-maven-plugin</artifactId>
-				<groupId>com.google.cloud.tools</groupId>
-				<version>${jib-maven-plugin.version}</version>
-				<configuration>
-					<from>
-						<image>${container.image}</image>
-					</from>
-					<to>
-						<image>${docker.image.prefix}/##REGISTERY_USERNAME##/${project.artifactId}</image>
-					</to>
-				</configuration>
-			</plugin>-->
+
 				
 			<!--<plugin>
 				<groupId>io.github.git-commit-id</groupId>

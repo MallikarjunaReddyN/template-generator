@@ -1,11 +1,7 @@
 package com.mallireddy.templategenerator.service;
 
-import com.mallireddy.templategenerator.domain.entity.TemplateGenerator;
-import com.mallireddy.templategenerator.domain.response.ProjectListResponse;
-import com.mallireddy.templategenerator.repository.TemplateGeneratorRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -18,15 +14,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
 @Service
 @Slf4j
-public class TemplateGeneratorService {	
-	@Autowired
-   	private TemplateGeneratorRepository templategeneratorRepository;
+public class TemplateGeneratorService {
 
     private static final String DESTINATION_PATH = "src/main/resources/temp/projects";
     private static final String TEMPLATE_PATH = "-vcs-ref template-restructure https://github.com/MallikarjunaReddyN/copier-springboot.git ";
@@ -82,13 +75,7 @@ public class TemplateGeneratorService {
             log.error("Exception occurred while generating project with exception message {}", e.getMessage());
             throw new RuntimeException("Exception occurred while generating project with exception message " + e.getMessage());
         }
-        insertCreatedProjectInfo(inputData, projectName, team);
         return resource;
-    }
-
-    private void insertCreatedProjectInfo(Map<String, String> inputData, String projectName, String team) {
-        TemplateGenerator project = TemplateGenerator.builder().projectName(projectName).createBy(inputData.get("created_by")).team(team).build();
-        templategeneratorRepository.save(project);
     }
 
     private String buildCopierCommand(Map<String, String> inputData) {
@@ -132,10 +119,5 @@ public class TemplateGeneratorService {
             log.error("Received invalid input, error message {}", errorMsg);
             throw new RuntimeException(errorMsg.toString());
         }
-    }
-
-    public List<ProjectListResponse> getProjectList() {
-        List<TemplateGenerator> templateGeneratorList = templategeneratorRepository.findAll();
-        return templateGeneratorList.stream().map(templateGenerator -> new ProjectListResponse(templateGenerator.getId().toString(), templateGenerator.getProjectName(), templateGenerator.getCreateBy(), templateGenerator.getTeam())).toList();
     }
 }
