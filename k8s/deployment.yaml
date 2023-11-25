@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: template-generator
+  labels:
+    app: templategenerator
+spec:
+  replicas: 2
+  strategy:
+     type: RollingUpdate
+  selector:
+    matchLabels:
+      app: templategenerator
+  template:
+    metadata:
+      labels:
+        app: templategenerator
+    spec:
+      containers:
+        - name: templategenerator
+          image: ##REGISTRY_USERNAME##/template-generator:##TAG##
+          livenessProbe:
+            httpGet:
+              port: 3662
+              path: /template-generator/v1/actuator/health/liveness
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              port: 3662
+              path: /template-generator/v1/actuator/health/readiness
+            initialDelaySeconds: 60
+            periodSeconds: 10
+          ports:
+            - containerPort: 3662

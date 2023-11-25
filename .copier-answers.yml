@@ -1,0 +1,21 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+CI: 'Yes'
+CI_type: Github Actions
+_commit: v1.0.0-5-ge50fb2a
+_src_path: https://github.com/MallikarjunaReddyN/copier-springboot.git
+aks: 'Yes'
+container_registery: DockerHub
+created_by: MalliReddyN
+db: PostgreSQL
+db_name: template-generator
+docker: 'Yes'
+entity: TemplateGenerator
+group_id: com.mallireddy
+is_db_required: 'Yes'
+project_description: This is a Spring Boot Template Microservice
+project_name: Template Generator
+project_package: templategenerator
+sca: 'Yes'
+sca_type: SonarCloud
+server_port: 3662
+version: 0.0.1
