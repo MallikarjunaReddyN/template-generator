@@ -24,7 +24,7 @@ public class TemplateGeneratorService {
     private static final String DESTINATION_PATH = "src/main/resources/temp/projects";
     private static final String TEMPLATE_PATH = "-vcs-ref template-restructure https://github.com/MallikarjunaReddyN/copier-springboot.git ";
 
-    public Resource generateProject(Map<String, String> inputData, String team) {
+    public Resource generateProject(Map<String, String> inputData) {
         validateInputData(inputData);
         String cmd = buildCopierCommand(inputData);
         String projectName = inputData.get("project_name");

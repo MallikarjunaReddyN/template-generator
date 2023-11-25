@@ -31,8 +31,8 @@ public class TemplateGeneratorController {
     }
 
     @PostMapping("/generate-project")
-    public ApiResponse<Void> generateProject(HttpServletResponse response, @RequestBody Map<String, String> inputData, @RequestParam("team") String team) throws IOException {
-        Resource resource = templategeneratorService.generateProject(inputData, team);
+    public ApiResponse<Void> generateProject(HttpServletResponse response, @RequestBody Map<String, String> inputData) throws IOException {
+        Resource resource = templategeneratorService.generateProject(inputData);
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
         response.setHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(resource.contentLength()));
         FileUtils.copy(resource.getFile(), response.getOutputStream());
