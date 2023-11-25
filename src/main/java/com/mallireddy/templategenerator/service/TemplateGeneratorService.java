@@ -104,8 +104,22 @@ public class TemplateGeneratorService {
 
     private void validateInputData(Map<String, String> inputData) {
         StringBuilder errorMsg = new StringBuilder();
+        String isDbRequired = inputData.get("is_db_required");
+        String sca = inputData.get("sca");
+        String docker = inputData.get("docker");
+        String ci = inputData.get("CI");
 
         for (Map.Entry<String, String> input : inputData.entrySet()) {
+            if (input.getKey().equals("server_port") || input.getKey().equals("version")
+                    || input.getKey().equals("project_description") || input.getKey().equals("db_name")) {
+                continue;
+            }
+            if ((input.getKey().equals("db") && isDbRequired.equals("No")) || (input.getKey().equals("sca_type") && sca.equals("No"))
+            || (input.getKey().equals(docker) && docker.equals("No")) || (input.getKey().equals("CI") && ci.equals("No"))
+            || (input.getKey().equals("aks") && docker.equals("No"))) {
+                inputData.remove(input.getKey());
+                continue;
+            }
             if (StringUtils.isEmpty(input.getValue())) {
                 errorMsg.append(input.getKey()).append(" must not be empty");
             } else if ("group_id".equals(input.getKey()) && !Pattern.matches("^[a-z]+(\\.[a-z][a-z0-9]*)*$", input.getValue())) {
