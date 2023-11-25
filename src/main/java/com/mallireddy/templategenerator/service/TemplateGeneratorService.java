@@ -16,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -80,7 +81,7 @@ public class TemplateGeneratorService {
         try {
             resource = new UrlResource(path.toUri());
             FileUtils.deleteDirectory(new File(projectCreatedPath));
-            FileUtils.forceDelete(new File(projectCreatedPath + ".zip"));
+            Files.deleteIfExists(path);
         } catch (Exception e) {
             log.error("Exception occurred while generating project with exception message {}", e.getMessage());
             throw new RuntimeException("Exception occurred while generating project with exception message " + e.getMessage());
