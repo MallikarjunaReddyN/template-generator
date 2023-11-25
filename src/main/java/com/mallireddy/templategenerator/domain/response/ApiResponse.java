@@ -3,8 +3,10 @@ package com.mallireddy.templategenerator.domain.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 
+import java.io.Serializable;
+
 @AllArgsConstructor
-public class ApiResponse<T> {
+public class ApiResponse<T> implements Serializable {
     @JsonProperty("status")
     private String status;
     @JsonProperty("code")

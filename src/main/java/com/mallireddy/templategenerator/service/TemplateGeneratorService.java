@@ -16,7 +16,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -49,7 +48,6 @@ public class TemplateGeneratorService {
         processBuilder.command("sh", "-c", cmd);
 
         try {
-
             Process process = processBuilder.start();
             StringBuilder output = new StringBuilder();
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -61,9 +59,8 @@ public class TemplateGeneratorService {
 
             int exitVal = process.waitFor();
             if (exitVal == 0) {
-                log.info("Project created '{}' Successfully!", process);
+                log.info("Project '{}' created Successfully!", projectName);
                 log.info(output.toString());
-                //System.exit(0);
             } else {
                 log.error("Error occurred while generating project with exitCode {}", exitVal);
                 throw new RuntimeException("Error occurred while generating project with exitCode " + exitVal);
@@ -80,7 +77,6 @@ public class TemplateGeneratorService {
         Resource resource = null;
         try {
             resource = new UrlResource(path.toUri());
-            Files.deleteIfExists(path);
             FileUtils.deleteDirectory(new File(projectCreatedPath));
         } catch (Exception e) {
             log.error("Exception occurred while generating project with exception message {}", e.getMessage());

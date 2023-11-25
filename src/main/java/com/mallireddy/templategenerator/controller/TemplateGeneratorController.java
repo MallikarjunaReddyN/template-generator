@@ -10,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
+import org.zeroturnaround.zip.commons.FileUtils;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
 
@@ -30,11 +33,14 @@ public class TemplateGeneratorController {
     }
 
     @PostMapping("/generate-project")
-    public ApiResponse<Resource> generateProject(HttpServletResponse response, @RequestBody Map<String, String> inputData, @RequestParam("team") String team) {
+    public ApiResponse<Void> generateProject(HttpServletResponse response, @RequestBody Map<String, String> inputData, @RequestParam("team") String team) throws IOException {
         Resource resource = templategeneratorService.generateProject(inputData, team);
-        response.setContentType("application/octet-stream");
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
-        return ApiResponse.ok(resource);
+        response.setHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(resource.contentLength()));
+        FileUtils.copy(resource.getFile(), response.getOutputStream());
+        response.flushBuffer();
+        Files.deleteIfExists(resource.getFile().toPath());
+        return ApiResponse.ok();
     }
 
     @GetMapping("/project-list")
