@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.zeroturnaround.zip.commons.FileUtils;
 
@@ -31,14 +32,18 @@ public class TemplateGeneratorController {
     }
 
     @PostMapping("/generate-project")
-    public ApiResponse<Void> generateProject(HttpServletResponse response, @RequestBody Map<String, String> inputData) throws IOException {
-        Resource resource = templategeneratorService.generateProject(inputData);
-        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
-        response.setHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(resource.contentLength()));
-        FileUtils.copy(resource.getFile(), response.getOutputStream());
-        response.flushBuffer();
-        Files.deleteIfExists(resource.getFile().toPath());
-        return ApiResponse.ok();
+    public ResponseEntity<?> generateProject(HttpServletResponse response, @RequestBody Map<String, String> inputData) {
+        try {
+            Resource resource = templategeneratorService.generateProject(inputData);
+            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
+            response.setHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(resource.contentLength()));
+            FileUtils.copy(resource.getFile(), response.getOutputStream());
+            response.flushBuffer();
+            Files.deleteIfExists(resource.getFile().toPath());
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
 
 }

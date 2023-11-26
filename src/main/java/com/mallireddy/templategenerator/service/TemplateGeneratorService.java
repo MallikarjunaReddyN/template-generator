@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -81,6 +83,9 @@ public class TemplateGeneratorService {
     private String buildCopierCommand(Map<String, String> inputData) {
         StringBuilder cmd = new StringBuilder("copier copy -f");
         for (Map.Entry<String, String> entry : inputData.entrySet()) {
+            if(StringUtils.isEmpty(entry.getValue())) {
+                continue;
+            }
             String key = entry.getKey();
             String value = entry.getValue();
             cmd.append("d '").append(key).append("=").append(value).append("' -");
@@ -95,6 +100,7 @@ public class TemplateGeneratorService {
         String sca = inputData.get("sca");
         String docker = inputData.get("docker");
         String ci = inputData.get("CI");
+        List<String> unwantedParams = new ArrayList<>();
 
         for (Map.Entry<String, String> input : inputData.entrySet()) {
             if (input.getKey().equals("server_port") || input.getKey().equals("version")
@@ -102,9 +108,9 @@ public class TemplateGeneratorService {
                 continue;
             }
             if ((input.getKey().equals("db") && isDbRequired.equals("No")) || (input.getKey().equals("sca_type") && sca.equals("No"))
-            || (input.getKey().equals(docker) && docker.equals("No")) || (input.getKey().equals("CI") && ci.equals("No"))
+            || (input.getKey().equals("container_registery") && docker.equals("No")) || (input.getKey().equals("CI_type") && ci.equals("No"))
             || (input.getKey().equals("aks") && docker.equals("No"))) {
-                inputData.remove(input.getKey());
+                unwantedParams.add(input.getKey());
                 continue;
             }
             if (StringUtils.isEmpty(input.getValue())) {
@@ -115,6 +121,8 @@ public class TemplateGeneratorService {
                 errorMsg.append("project_name is invalid");
             }
         }
+
+        unwantedParams.forEach(inputData::remove);
         if (StringUtils.isNotEmpty(errorMsg)) {
             log.error("Received invalid input, error message {}", errorMsg);
             throw new RuntimeException(errorMsg.toString());
