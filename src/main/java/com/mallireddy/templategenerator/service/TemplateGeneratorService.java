@@ -114,9 +114,9 @@ public class TemplateGeneratorService {
                 continue;
             }
             if (StringUtils.isEmpty(input.getValue())) {
-                errorMsg.append(input.getKey()).append(" must not be empty").append(" \n");
+                errorMsg.append(input.getKey()).append(" must not be empty").append(",  \n");
             } else if ("group_id".equals(input.getKey()) && !Pattern.matches("^[a-z]+(\\.[a-z][a-z0-9]*)*$", input.getValue())) {
-                errorMsg.append("group_id is invalid").append("\n");
+                errorMsg.append("group_id is invalid").append(", \n");
             } else if ("project_name".equals(input.getKey()) && !Pattern.matches("^[A-Za-z][A-Za-z\\s]*$", input.getValue())) {
                 errorMsg.append("project_name is invalid");
             }
