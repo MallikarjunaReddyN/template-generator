@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.zeroturnaround.zip.commons.FileUtils;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Map;
 

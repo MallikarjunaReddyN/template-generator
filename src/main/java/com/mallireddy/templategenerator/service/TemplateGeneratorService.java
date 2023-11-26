@@ -83,7 +83,7 @@ public class TemplateGeneratorService {
     private String buildCopierCommand(Map<String, String> inputData) {
         StringBuilder cmd = new StringBuilder("copier copy -f");
         for (Map.Entry<String, String> entry : inputData.entrySet()) {
-            if(StringUtils.isEmpty(entry.getValue())) {
+            if (StringUtils.isEmpty(entry.getValue())) {
                 continue;
             }
             String key = entry.getKey();
