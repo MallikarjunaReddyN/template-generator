@@ -15,6 +15,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry corsRegistry) {
-        corsRegistry.addMapping("/**").allowedOrigins("http://localhost:5173", "https://template-generator-ui.onrender.com/").exposedHeaders("Content-Disposition");
+        corsRegistry.addMapping("/**").allowedOrigins("http://localhost:5173", "https://template-generator.onrender.com/").exposedHeaders("Content-Disposition");
     }
 }
